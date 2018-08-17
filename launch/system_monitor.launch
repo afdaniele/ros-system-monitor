@@ -2,20 +2,20 @@
   <arg name="machine_name" default="$(optenv HOSTNAME localhost)"/>
   <arg name="config_file" default="$(find system_monitor)/config/default.yaml"/>
   <arg name="output" default="log"/>
+  <!--  -->
+  <arg name="cpu_monitor" default="true"/>
+  <arg name="hdd_monitor" default="true"/>
+  <arg name="mem_monitor" default="true"/>
+  <arg name="ntp_monitor" default="true"/>
+  <arg name="net_monitor" default="true"/>
 
   <group ns="system_monitor/$(arg machine_name)">
-    <node name="cpu_monitor" pkg="system_monitor" type="cpu_monitor.py"
-      output="$(arg output)" respawn="true"/>
-    <node name="hdd_monitor" pkg="system_monitor" type="hdd_monitor.py"
-      output="$(arg output)" respawn="true"/>
-    <node name="mem_monitor" pkg="system_monitor" type="mem_monitor.py"
-      output="$(arg output)" respawn="true"/>
-    <node name="ntp_monitor" pkg="system_monitor" type="ntp_monitor.py"
-      output="$(arg output)" respawn="true"/>
-    <node name="net_monitor" pkg="system_monitor" type="net_monitor.py"
-      output="$(arg output)" respawn="true"/>
+    <node if="$(arg cpu_monitor)" name="cpu_monitor" pkg="system_monitor" type="cpu_monitor.py" output="$(arg output)" respawn="true"/>
+    <node if="$(arg hdd_monitor)" name="hdd_monitor" pkg="system_monitor" type="hdd_monitor.py" output="$(arg output)" respawn="true"/>
+    <node if="$(arg mem_monitor)" name="mem_monitor" pkg="system_monitor" type="mem_monitor.py" output="$(arg output)" respawn="true"/>
+    <node if="$(arg ntp_monitor)" name="ntp_monitor" pkg="system_monitor" type="ntp_monitor.py" output="$(arg output)" respawn="true"/>
+    <node if="$(arg net_monitor)" name="net_monitor" pkg="system_monitor" type="net_monitor.py" output="$(arg output)" respawn="true"/>
   </group>
 
-  <rosparam command="load" file="$(arg config_file)"
-    ns="system_monitor/$(arg machine_name)"/>
+  <rosparam command="load" file="$(arg config_file)" ns="system_monitor/$(arg machine_name)"/>
 </launch>
