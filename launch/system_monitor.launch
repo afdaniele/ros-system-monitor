@@ -3,11 +3,11 @@
   <arg name="config_file" default="$(find system_monitor)/config/default.yaml"/>
   <arg name="output" default="log"/>
   <!--  -->
-  <arg name="cpu_monitor" default="true"/>
-  <arg name="hdd_monitor" default="true"/>
-  <arg name="mem_monitor" default="true"/>
-  <arg name="ntp_monitor" default="true"/>
-  <arg name="net_monitor" default="true"/>
+  <arg name="cpu_monitor" default="$(optenv CPU_MONITOR true)"/>
+  <arg name="hdd_monitor" default="$(optenv HDD_MONITOR true)"/>
+  <arg name="mem_monitor" default="$(optenv MEM_MONITOR true)"/>
+  <arg name="ntp_monitor" default="$(optenv NTP_MONITOR true)"/>
+  <arg name="net_monitor" default="$(optenv NET_MONITOR true)"/>
 
   <group ns="system_monitor/$(arg machine_name)">
     <node if="$(arg cpu_monitor)" name="cpu_monitor" pkg="system_monitor" type="cpu_monitor.py" output="$(arg output)" respawn="true"/>
